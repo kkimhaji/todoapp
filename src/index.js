@@ -1,10 +1,7 @@
 import { log } from './utils';
 import './todo.css';
 import { printTodos } from './print-todos';
-
-//입력했을 때 todo 추가
-const $form = document.querySelector('.new-task');
-const $input = document.querySelector('.new-task > input');
+import { init as initFrom } from './form';
 
 const todos = [
     {title:'HTML', isDone:false}
@@ -15,21 +12,11 @@ const print = ()=>{
 }
 
 
-const checkTodo = (event) => {
-    event.preventDefault();
-    console.log($input.value);
-
-    const todo = {title: $input.value, isDone: false};
-    todos.push(todo);
-
-    //input 초기화
-    $input.value = '';
-
-    //todos 출력
+const toggleTodo = (index) =>{
+    //index에 맞는 todo의 isDone을 반전시켜야 함
+    todos[index].isDone = !todos[index].isDone;
     print();
 };
-
-$form.addEventListener('submit', checkTodo);
 
 const deleteTodo = (index) =>{
     console.log('delete', index);
@@ -37,11 +24,6 @@ const deleteTodo = (index) =>{
     todos.splice(index, 1);
     print();
 };
-
-const toggleTodo = (index) =>{
-
-};
-
 //delete, isDone
 document.body.addEventListener('click', (event)=>{
     const index = parseInt(event.target.parentNode.dataset.index, 10);
@@ -53,6 +35,8 @@ document.body.addEventListener('click', (event)=>{
         toggleTodo(index);
     }
 });
+
+initFrom(todos);
 
 //todos 뿌려주기
 print();
